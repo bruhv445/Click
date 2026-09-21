@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Studs Rush</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span><span></span></div>
+<div class="bg-grain"></div>
+<div class="bg-vignette"></div>
+<div id="app">
+
+  <!-- Верхняя панель: аватар, имя, уровень -->
+  <header class="topbar">
+    <div class="profile">
+      <div class="avatar-wrap">
+        <img id="avatar" class="avatar" src="изображения/avatar-placeholder.svg" alt="">
+        <span id="levelBadge" class="level-badge">1</span>
+      </div>
+      <div class="profile-info">
+        <div id="username" class="username">Игрок</div>
+        <div class="level-row">
+          <div class="level-bar"><div id="levelFill" class="level-fill"></div></div>
+          <span id="levelPercent" class="level-percent">0%</span>
+        </div>
+      </div>
+    </div>
+    <div class="balances">
+      <div class="balance-pill">
+        <img src="изображения/coin.svg" class="coin-icon" alt="">
+        <span id="balance">0</span>
+      </div>
+      <div class="balance-pill robux-pill">
+        <img src="изображения/robux.svg" class="coin-icon" alt="">
+        <span id="robuxBalance">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Плавающее предложение "посмотреть рекламу за буст" -->
+  <div id="adOfferPopup" class="ad-offer-popup">
+    <button id="adOfferClose" class="ad-offer-close" aria-label="Закрыть">×</button>
+    <div id="adOfferIcon" class="ad-offer-icon">⚡</div>
+    <div class="ad-offer-text">
+      <div id="adOfferTitle" class="ad-offer-title">x2 к клику на 30 сек!</div>
+      <div id="adOfferSub" class="ad-offer-sub">Посмотри рекламу и получи буст</div>
+    </div>
+    <button id="adOfferWatch" class="ad-offer-btn">Смотреть</button>
+  </div>
+
+  <!-- Экран: КЛИКЕР -->
+  <section id="screen-clicker" class="screen active">
+    <div id="buffBanner" class="buff-banner">
+      <span class="buff-banner-icon">🔥</span>
+      <span class="buff-banner-text">x<span id="buffMultiplierLabel">2</span> к клику — <span id="buffTimer">20</span> сек</span>
+    </div>
+
+    <div class="coin-stage">
+      <div class="coin-glow"></div>
+      <div class="coin-ring coin-ring-1"></div>
+      <div class="coin-ring coin-ring-2"></div>
+      <div class="coin-shadow"></div>
+      <button id="coinBtn" class="coin-btn" aria-label="Тапни стад">
+        <img src="изображения/coin.svg" alt="coin" draggable="false">
+      </button>
+    </div>
+
+    <div class="energy-wrap">
+      <div class="energy-row">
+        <div class="energy-badge"><img src="изображения/bolt.svg" class="bolt-icon" alt=""></div>
+        <div class="energy-bar"><div id="energyFill" class="energy-fill"></div></div>
+        <span id="energyLabel" class="energy-label">1000/1000</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Экран: МАГАЗИН -->
+  <section id="screen-shop" class="screen">
+    <div class="section-title">Магазин апгрейдов</div>
+    <div class="shop-tabs">
+      <button class="shop-tab active" data-cat="click">Апгрейды</button>
+      <button class="shop-tab shop-tab-robux" data-cat="robux">
+        <img src="изображения/robux.svg" class="shop-tab-icon" alt="">Кристаллы
+      </button>
+    </div>
+    <div id="shopList" class="shop-list"></div>
+  </section>
+
+  <!-- Экран: ЗАРАБОТАТЬ (реклама + задания) -->
+  <section id="screen-earn" class="screen">
+    <div class="section-title">Заработать</div>
+
+    <div class="earn-card">
+      <div class="earn-card-info">
+        <div class="earn-card-title">Смотреть рекламу</div>
+        <div class="earn-card-sub">+500 стадсов за просмотр</div>
+      </div>
+      <button id="watchAdBtn" class="earn-btn">Смотреть</button>
+    </div>
+
+    <div class="earn-card">
+      <div class="earn-card-info">
+        <div class="earn-card-title">Восстановить энергию</div>
+        <div class="earn-card-sub">Полный бак за рекламу</div>
+      </div>
+      <button id="watchAdEnergyBtn" class="earn-btn">Смотреть</button>
+    </div>
+
+    <div class="earn-card earn-card-robux">
+      <div class="earn-card-info">
+        <div class="earn-card-title">Смотреть рекламу за кристаллы</div>
+        <div class="earn-card-sub">+<span id="adRobuxAmount">5</span> кристаллов за просмотр</div>
+      </div>
+      <button id="watchAdRobuxBtn" class="earn-btn earn-btn-robux">Смотреть</button>
+    </div>
+
+    <div class="promo-card">
+      <div class="promo-icon">🎁</div>
+      <div class="promo-input-row">
+        <input id="promoInput" class="promo-input" type="text" maxlength="24" placeholder="Есть промокод?">
+        <button id="promoBtn" class="promo-btn">Активировать</button>
+      </div>
+    </div>
+
+    <div id="adsgramTaskWrap" class="earn-card-task-wrap">
+      <div class="section-title small">Рекламные задания</div>
+      <adsgram-task id="adsgramTask" class="task" data-debug="false"></adsgram-task>
+    </div>
+
+    <div id="tasksSection">
+      <div class="section-title small">Задания</div>
+      <div id="taskList" class="task-list"></div>
+    </div>
+
+    <button id="privacyLinkBtn" class="privacy-link">🔒 О данных и конфиденциальности</button>
+  </section>
+
+  <!-- Модалка "О данных" — для прозрачности перед модерацией -->
+  <div id="privacyModal" class="privacy-modal">
+    <div class="privacy-modal-card">
+      <button id="privacyModalClose" class="privacy-modal-close" aria-label="Закрыть">×</button>
+      <div class="privacy-modal-title">О данных и конфиденциальности</div>
+      <div class="privacy-modal-text">
+        Весь игровой прогресс (баланс, апгрейды, обмены, промокоды) хранится локально на твоём устройстве —
+        приложение не собирает и не передаёт на сервер личные данные.<br><br>
+        Реклама показывается через партнёра AdsGram; при просмотре роликов может применяться
+        его собственная политика обработки данных.<br><br>
+        Мини-апп не запрашивает доступ к перепискам, контактам или файлам Telegram.
+      </div>
+    </div>
+  </div>
+
+  <!-- Нижняя навигация -->
+  <nav class="tabbar">
+    <div id="tabIndicator" class="tab-indicator"></div>
+    <button class="tab-btn active" data-screen="clicker">
+      <img src="изображения/tab-coin.svg" alt="">
+      <span>Кликер</span>
+    </button>
+    <button class="tab-btn" data-screen="shop">
+      <img src="изображения/tab-shop.svg" alt="">
+      <span>Магазин</span>
+    </button>
+    <button class="tab-btn" data-screen="earn">
+      <img src="изображения/tab-earn.svg" alt="">
+      <span>Заработать</span>
+    </button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
