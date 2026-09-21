@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Studs Rush</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+  <!-- Верхняя панель: аватар, имя, уровень -->
+  <header class="topbar">
+    <div class="profile">
+      <img id="avatar" class="avatar" src="изображения/avatar-placeholder.svg" alt="">
+      <div class="profile-info">
+        <div id="username" class="username">Игрок</div>
+        <div class="level-row">
+          <span id="levelLabel">Ур. 1</span>
+          <div class="level-bar"><div id="levelFill" class="level-fill"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="balance-pill">
+      <img src="изображения/coin.svg" class="coin-icon" alt="">
+      <span id="balance">0</span>
+    </div>
+  </header>
+
+  <!-- Экран: КЛИКЕР -->
+  <section id="screen-clicker" class="screen active">
+    <div class="income-hint">
+      <span id="perHourValue">+0</span>/час пассивно
+    </div>
+
+    <div class="coin-stage">
+      <button id="coinBtn" class="coin-btn" aria-label="Тапни стад">
+        <img src="изображения/coin.svg" alt="coin" draggable="false">
+      </button>
+    </div>
+
+    <div class="energy-wrap">
+      <div class="energy-row">
+        <img src="изображения/bolt.svg" class="bolt-icon" alt="">
+        <span id="energyLabel">1000 / 1000</span>
+      </div>
+      <div class="energy-bar"><div id="energyFill" class="energy-fill"></div></div>
+    </div>
+  </section>
+
+  <!-- Экран: МАГАЗИН -->
+  <section id="screen-shop" class="screen">
+    <div class="section-title">Магазин апгрейдов</div>
+    <div class="shop-tabs">
+      <button class="shop-tab active" data-cat="click">За тап</button>
+      <button class="shop-tab" data-cat="passive">Пассивный доход</button>
+    </div>
+    <div id="shopList" class="shop-list"></div>
+  </section>
+
+  <!-- Экран: ДРУЗЬЯ / РЕФЕРАЛЫ -->
+  <section id="screen-friends" class="screen">
+    <div class="section-title">Приглашай друзей</div>
+    <div class="ref-card">
+      <div class="ref-reward-row">
+        <img src="изображения/gift.svg" class="gift-icon" alt="">
+        <div>
+          <div class="ref-reward-title">Ты получаешь <b>2 500</b> стадсов</div>
+          <div class="ref-reward-sub">Друг получает <b>1 000</b> стадсов за старт</div>
+        </div>
+      </div>
+      <button id="inviteBtn" class="primary-btn">Пригласить друга</button>
+      <button id="copyLinkBtn" class="secondary-btn">Скопировать ссылку</button>
+    </div>
+
+    <div class="ref-stats">
+      <div class="ref-stat">
+        <div id="refCount" class="ref-stat-value">0</div>
+        <div class="ref-stat-label">Приглашено</div>
+      </div>
+      <div class="ref-stat">
+        <div id="refEarned" class="ref-stat-value">0</div>
+        <div class="ref-stat-label">Заработано с рефералов</div>
+      </div>
+    </div>
+
+    <div class="section-title small">Твои друзья</div>
+    <div id="refList" class="ref-list">
+      <div class="empty-hint">Пока никого нет — поделись ссылкой выше</div>
+    </div>
+  </section>
+
+  <!-- Экран: ЗАРАБОТАТЬ (реклама + задания) -->
+  <section id="screen-earn" class="screen">
+    <div class="section-title">Заработать</div>
+
+    <div class="earn-card">
+      <div class="earn-card-info">
+        <div class="earn-card-title">Смотреть рекламу</div>
+        <div class="earn-card-sub">+500 стадсов за просмотр</div>
+      </div>
+      <button id="watchAdBtn" class="earn-btn">Смотреть</button>
+    </div>
+
+    <div class="earn-card">
+      <div class="earn-card-info">
+        <div class="earn-card-title">Восстановить энергию</div>
+        <div class="earn-card-sub">Полный бак за рекламу</div>
+      </div>
+      <button id="watchAdEnergyBtn" class="earn-btn">Смотреть</button>
+    </div>
+
+    <div class="section-title small">Задания</div>
+    <div id="taskList" class="task-list"></div>
+  </section>
+
+  <!-- Нижняя навигация -->
+  <nav class="tabbar">
+    <button class="tab-btn active" data-screen="clicker">
+      <img src="изображения/tab-coin.svg" alt="">
+      <span>Кликер</span>
+    </button>
+    <button class="tab-btn" data-screen="shop">
+      <img src="изображения/tab-shop.svg" alt="">
+      <span>Магазин</span>
+    </button>
+    <button class="tab-btn" data-screen="friends">
+      <img src="изображения/tab-friends.svg" alt="">
+      <span>Друзья</span>
+    </button>
+    <button class="tab-btn" data-screen="earn">
+      <img src="изображения/tab-earn.svg" alt="">
+      <span>Заработать</span>
+    </button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
