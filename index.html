@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Симулятор бизнесмена: с нуля до корпорации</title>
+<meta name="description" content="Экономический симулятор: начни с нуля и построй бизнес-империю.">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header class="topbar">
+    <div class="topbar__brand">
+      <span class="topbar__logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <rect x="3" y="10" width="4" height="11" rx="1" fill="currentColor"/>
+          <rect x="10" y="6" width="4" height="15" rx="1" fill="currentColor"/>
+          <rect x="17" y="2" width="4" height="19" rx="1" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="topbar__title">Симулятор бизнесмена</span>
+    </div>
+    <button id="btn-crystals" class="crystal-pill" title="Кристаллы">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2 3 9l9 13 9-13-9-7Zm0 2.5L18.2 9H5.8L12 4.5ZM6.3 11h11.4L12 20.6 6.3 11Z"/></svg>
+      <span id="crystal-count">0</span>
+    </button>
+  </header>
+
+  <!-- ===================== STAT STRIP ===================== -->
+  <section class="statstrip" id="statstrip">
+    <div class="stat-card stat-card--balance">
+      <div class="stat-card__icon">💰</div>
+      <div class="stat-card__body">
+        <div class="stat-card__label">Баланс</div>
+        <div class="stat-card__value" id="stat-balance">0 ₽</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--income">
+      <div class="stat-card__icon">📈</div>
+      <div class="stat-card__body">
+        <div class="stat-card__label">Доход/день</div>
+        <div class="stat-card__value" id="stat-income">+0 ₽</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--expense">
+      <div class="stat-card__icon">💸</div>
+      <div class="stat-card__body">
+        <div class="stat-card__label">Расходы/день</div>
+        <div class="stat-card__value" id="stat-expense">−0 ₽</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--net">
+      <div class="stat-card__icon">🧮</div>
+      <div class="stat-card__body">
+        <div class="stat-card__label">Прибыль/день</div>
+        <div class="stat-card__value" id="stat-net">+0 ₽</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--worth">
+      <div class="stat-card__icon">🏢</div>
+      <div class="stat-card__body">
+        <div class="stat-card__label">Активы</div>
+        <div class="stat-card__value" id="stat-worth">0 ₽</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--rep">
+      <div class="stat-card__icon">⭐</div>
+      <div class="stat-card__body">
+        <div class="stat-card__label">Репутация</div>
+        <div class="stat-card__value" id="stat-rep">0 — Новичок</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main id="main-content" class="main-content"></main>
+
+  <!-- ===================== DAY BAR ===================== -->
+  <div class="day-bar" id="day-bar">
+    <div class="day-bar__label">День <span id="day-bar-num">1</span></div>
+    <button class="btn btn-primary btn-sm" id="btn-next-day">Следующий день →</button>
+  </div>
+
+  <!-- ===================== BOTTOM NAV ===================== -->
+  <nav class="bottomnav" id="bottomnav">
+    <button class="bottomnav__btn is-active" data-screen="dashboard">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 12 12 3l9 9h-3v9h-5v-6H11v6H6v-9H3Z"/></svg>
+      <span>Главная</span>
+    </button>
+    <button class="bottomnav__btn" data-screen="businesses">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M4 21V9l8-5 8 5v12h-6v-6h-4v6H4Z"/></svg>
+      <span>Бизнесы</span>
+    </button>
+    <button class="bottomnav__btn" data-screen="employees">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.4 0-9 2.2-9 5v2h18v-2c0-2.8-4.6-5-9-5Z"/></svg>
+      <span>Команда</span>
+    </button>
+    <button class="bottomnav__btn" data-screen="property">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 21V11l9-7 9 7v10h-6v-6H9v6H3Z"/></svg>
+      <span>Активы</span>
+    </button>
+    <button class="bottomnav__btn" data-screen="invest">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 17l6-6 4 4 8-8v4h2V3h-8v2h4l-6 6-4-4-8 8Z"/></svg>
+      <span>Инвестиции</span>
+    </button>
+    <button class="bottomnav__btn" data-screen="more">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+      <span>Ещё</span>
+    </button>
+  </nav>
+
+  <!-- ===================== NOTIFICATIONS ===================== -->
+  <div id="notif-container" class="notif-container"></div>
+
+  <!-- ===================== MODAL ROOT ===================== -->
+  <div id="modal-root" class="modal-root"></div>
+
+  <!-- ===================== FLOATING GAIN NUMBERS ===================== -->
+  <div id="float-layer" class="float-layer"></div>
+
+</div>
+
+<script src="js/state.js"></script>
+<script src="js/player.js"></script>
+<script src="js/businesses.js"></script>
+<script src="js/employees.js"></script>
+<script src="js/achievements.js"></script>
+<script src="js/luxury.js"></script>
+<script src="js/economy.js"></script>
+<script src="js/investments.js"></script>
+<script src="js/events.js"></script>
+<script src="js/save.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
